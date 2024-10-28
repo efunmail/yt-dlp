@@ -140,6 +140,7 @@ def _extract_firefox_cookies(profile, container, logger):
         search_roots = [os.path.join(path, profile) for path in _firefox_browser_dirs()]
     search_root = ', '.join(map(repr, search_roots))
 
+    # [zpn] `_firefox_cookie_dbs()` finds path to `cookies.sqlite` file - re: `_firefox_browser_dirs()`
     cookie_database_path = _newest(_firefox_cookie_dbs(search_roots))
     if cookie_database_path is None:
         raise FileNotFoundError(f'could not find firefox cookies database in {search_root}')
