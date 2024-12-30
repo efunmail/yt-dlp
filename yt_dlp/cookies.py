@@ -189,6 +189,18 @@ def _extract_firefox_cookies(profile, container, logger):
                         comment=None, comment_url=None, rest={})
                     jar.set_cookie(cookie)
             logger.info(f'Extracted {len(jar)} cookies from firefox')
+
+            # $_COOKIES=my_cookies.txt
+            # # // In DEBUG mode (`-s -v`), *save* cookies...
+            # _ZPN_COOKIES_FILE=$_COOKIES python3 -m yt_dlp $URL -s -v --cookies-from-browser firefox
+            #
+            # // *Load* cookies
+            # python3 -m yt_dlp $URL -F --cookies $_COOKIES
+
+            # // `YoutubeDLCookieJar.save()` - *save* ALL cookies, if env var exists
+            try: jar.save(os.environ['_ZPN_COOKIES_FILE'])
+            except: pass
+
             return jar
         finally:
             if cursor is not None:
